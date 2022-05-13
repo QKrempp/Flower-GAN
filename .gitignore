@@ -1,0 +1,10 @@
+data/
+dataset/
+generated*
+.kdev4
+*.kdev4
+*.pdf
+.projectenv/
+checkpoints/
+.old/
+Telegram_BOT.py
