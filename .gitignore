@@ -1,10 +1,14 @@
 data/
+old/
+__pycache__/
 dataset/
 generated*
 .kdev4
 *.kdev4
 *.pdf
+*.txt
 .projectenv/
 checkpoints/
 .old/
+script/
 Telegram_BOT.py
