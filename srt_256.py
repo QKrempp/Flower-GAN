@@ -20,7 +20,7 @@ torch_transform = tt.Compose([tt.ConvertImageDtype(torch.float), tt.Resize(256),
 
 dc_values = {}
 
-for img in tqdm(img_list[:1000]):
+for img in tqdm(img_list):
     try:
         torch_img = torch_transform(read_image("data/256/" + img, ImageReadMode.RGB).unsqueeze(0))
         dc_values[img] = dis(torch_img.to(device)).item()
