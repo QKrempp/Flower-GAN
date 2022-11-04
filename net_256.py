@@ -2,8 +2,30 @@ import os
 import torch
 import torch.nn as nn
 
+class Neural(nn.Module):
 
-class Generator(nn.Module):
+    def __init__(self):
+        super(Neural, self).__init__()
+
+
+    def save_checkpoint(self, folder="checkpoints", filename="model.pkl"):
+        filepath = os.path.join(folder, filename)
+        if not os.path.exists(folder):
+            print("Checkpoint Directory does not exist! Making directory {}".format(folder))
+            os.mkdir(folder)
+        torch.save(obj={"state_dict": self.state_dict()}, f=filepath)
+
+
+    def load_checkpoint(self, device, folder="checkpoints", filename="model.pkl"):
+        filepath = os.path.join(folder, filename)
+        if not os.path.exists(filepath):
+            raise FileNotFoundError("No model in path {}".format(filepath))
+        map_location = device 
+        checkpoint = torch.load(filepath, map_location=map_location)
+        self.load_state_dict(checkpoint["state_dict"], strict=False)
+
+
+class Generator(Neural):
 
     def __init__(self, nz, nc, ngf):
 
@@ -73,7 +95,7 @@ class Generator(nn.Module):
 
 
 
-class Discriminator(nn.Module):
+class Discriminator(Neural):
 
     def __init__(self, nc, ndf):
 

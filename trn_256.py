@@ -41,20 +41,6 @@ def save_sample(epoch, gen, fixed_noise):
     del fake_img
     return fake_nam
 
-def save_checkpoint(NeuralNet, folder="checkpoints", filename="model.pkl"):
-    filepath = os.path.join(folder, filename)
-    if not os.path.exists(folder):
-        print("Checkpoint Directory does not exist! Making directory {}".format(folder))
-        os.mkdir(folder)
-    torch.save(obj={"state_dict": NeuralNet.state_dict()}, f=filepath)
-
-def load_checkpoint(NeuralNet, folder="checkpoints", filename="model.pkl"):
-    filepath = os.path.join(folder, filename)
-    if not os.path.exists(filepath):
-        raise FileNotFoundError("No model in path {}".format(filepath))
-    map_location = DEVICE
-    checkpoint = torch.load(filepath, map_location=map_location)
-    NeuralNet.load_state_dict(checkpoint["state_dict"], strict=False)
 
 def build_grad_dis(dis, dis_optim, gen, criterion, real_batch):
 
@@ -172,8 +158,8 @@ def training():
 
         if (e + 1) % 100 == 0:
             send_image(fake_fname=save_sample(e, gen, fixed_noise), msg="Epoch [{}/{}], loss_d: {:.4f}, loss_g: {:.4f}".format(e + 1, epochs, loss_dis, loss_gen))
-            save_checkpoint(gen, filename="gen.pkl")
-            save_checkpoint(dis, filename="dis.pkl")
+            gen.save_checkpoint(filename="gen.pkl")
+            dis.save_checkpoint(filename="dis.pkl")
 
         if e > 0 and e % (epochs // lr_decay_nb) == 0:
             gen_scheduler.step()
