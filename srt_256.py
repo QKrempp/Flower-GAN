@@ -1,6 +1,5 @@
 import torch
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from tqdm import tqdm
 from net_256 import Discriminator
@@ -33,13 +32,15 @@ pd_values.columns = ['confidence']
 
 print(pd_values.describe())
 
-floor = pd_values.quantile(0.001)
+pd_values.to_csv('outliers.csv')
 
-print(float(floor))
-
-id_outliers = pd_values[pd_values['confidence'] < 0.8].index.values
-
-fl_outliers = open("outliers.txt", 'w')
-
-for o in id_outliers:
-    fl_outliers.writelines(o + '\n')
+#floor = pd_values.quantile(0.001)
+#
+#print(float(floor))
+#
+#id_outliers = pd_values[pd_values['confidence'] < 0.8].index.values
+#
+#fl_outliers = open("outliers.txt", 'w')
+#
+#for o in id_outliers:
+#    fl_outliers.writelines(o + '\n')
